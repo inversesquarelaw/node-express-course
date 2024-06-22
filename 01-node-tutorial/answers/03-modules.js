@@ -17,3 +17,8 @@ sayHi("susan");
 sayHi(lawrence); //using destructuring
 sayHi(names.john); //using object by referencing names.john
 console.log("==========");
+
+console.log(
+  "we import/require file 07 and it will invoke the function addValues() implicitly"
+);
+require("./07-mind-grenade");
