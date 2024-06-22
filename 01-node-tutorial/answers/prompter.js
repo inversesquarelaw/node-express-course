@@ -28,7 +28,7 @@ let item = "Enter something below.";
 const form = () => {
   return `
   <body>
-  <p>${item}</p>
+  <p>${history}</p>
   <form method="POST">
   <input name="item"></input>
   <button type="submit">Submit</button>
@@ -36,6 +36,8 @@ const form = () => {
   </body>
   `;
 };
+
+let history = [];
 
 const server = http.createServer((req, res) => {
   console.log("req.method is ", req.method);
@@ -46,6 +48,7 @@ const server = http.createServer((req, res) => {
       // here, you can add your own logic
       if (body["item"]) {
         item = body["item"];
+        history.push(item); // added logic to store and show the history of items entered
       } else {
         item = "Nothing was entered.";
       }
