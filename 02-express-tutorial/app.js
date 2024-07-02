@@ -1,22 +1,27 @@
 const express = require('express');
+const path = require('path');
 const app = express();
 
 // alternatively, we can write the above 2 lines as: 
 // const app = require('express')();
 // this is because the express module exports a function that we can invoke/call directly
 
-app.get('/', (req, res) => {
-    console.log('User hit the resource');
-    res.status(200).send('Home Page');
-})
+// setup static and middleware
+// the express.static() method is a built-in middleware function in Express. It serves static files and is based on serve-static.
+// static files are files that clients download as they are from the server: like images, css, js files, etc.
+app.use(express.static('./navbar-app'));
 
-app.get('/about', (req, res) => {
-    res.status(200).send('About Page');
+app.get('/', (req, res) => {
+    res.sendFile(path.resolve(__dirname, './navbar-app/index.html'));
+    // since index.html is a static asset, there's no reason to use the sendFile() method, just put it in the public folder
+    // adding to static assets or server side rendering
 });
 
 app.all('*', (req, res) => {
     res.status(404).send('<h1>Resource not found</h1>');
 });
+
+
 
 app.listen(5000, () => {
     console.log('Server is listening on port 5000...');
