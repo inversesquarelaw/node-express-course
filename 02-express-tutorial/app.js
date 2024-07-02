@@ -7,12 +7,12 @@ app.use(express.static('./public'));
 
 // Question 7
 app.get('/api/v1/test', (req, res) => {
-    res.json({ message: "It worked!" });
+    return res.json({ message: "It worked!" });
 });
 
 // Question 8 - if you mis-type and leave out the leading slash, the route will not work!!!
 app.get('/api/v1/products', (req, res) => {
-    res.json(products);
+    return res.json(products);
 });
 
 // Question 9 and 10
@@ -29,12 +29,36 @@ app.get('/api/v1/products/:productID', (req, res) => {
     }
 
     // return the product object that matches the id
-    res.json(product);
+    return res.json(product);
+});
+
+// Question 11
+app.get('/api/v1/query', (req, res) => {
+    const { search, limit } = req.query; 
+
+    let queryProducts = [...products];
+    
+    if( search ) {
+        queryProducts = queryProducts.filter( (product) => {
+            return product.name.startsWith(search);
+        });
+        
+    }
+
+    if( limit ) {
+        queryProducts = queryProducts.slice(0, parseInt(limit));
+    }
+
+    if( queryProducts.length === 0 ) {
+        return res.status(200).json({ message: "No products matched your search." });
+    }
+
+    return res.json(queryProducts);
 });
 
 // Question 6
 app.all('*', (req, res) => {
-    res.status(404).send('<h1>404! The page you requested is not found!</h1>');
+    return res.status(404).send('<h1>404! The page you requested is not found!</h1>');
 });
 
 app.listen(3000, () => {
