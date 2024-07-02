@@ -32,21 +32,29 @@ app.get('/api/v1/products/:productID', (req, res) => {
     return res.json(product);
 });
 
-// Question 11
+// Question 11 and 12
 app.get('/api/v1/query', (req, res) => {
-    const { search, limit } = req.query; 
+    const { search, limit, price } = req.query; 
 
+    // by default if no query parameters are provided, we will return all products
     let queryProducts = [...products];
     
-    if( search ) {
+    if( search ){
         queryProducts = queryProducts.filter( (product) => {
             return product.name.startsWith(search);
         });
         
     }
 
-    if( limit ) {
+    if( limit ){
         queryProducts = queryProducts.slice(0, parseInt(limit));
+    }
+
+    // if productPrice is less than or equal to the price query parameter, return the product
+    if( price ){
+        queryProducts = queryProducts.filter( (product) => {
+            return product.price <= parseInt(price);
+        });
     }
 
     if( queryProducts.length === 0 ) {
