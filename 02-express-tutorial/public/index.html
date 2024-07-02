@@ -1,3 +1,19 @@
+<script>
+    let clickCounter = 0;
+    function printHello() {
+        let output = document.getElementById('outputDiv');
+        console.log(output);
+        output.innerHTML = `${clickCounter} clicks!`;
+        clickCounter += 1;
+    }
+</script>
+
 <body>
     Week 3
+
+    <div>
+        <button id="btn" onclick="printHello()">Click me</button>
+    </div>
+
+    <div id="outputDiv">Number of clicks!</div>
 </body>
