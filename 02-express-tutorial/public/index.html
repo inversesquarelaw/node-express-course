@@ -1,0 +1,63 @@
+<script>
+    let clickCounter = 0;
+    function printHello() {
+        let output = document.getElementById('outputDiv');
+        console.log(output);
+        output.innerHTML = `${clickCounter} clicks!`;
+        clickCounter += 1;
+    }
+
+    async function fetchAllProducts() {
+        let productsDiv = document.getElementById('productsDiv');
+        productsDiv.innerHTML = 'Attempting to fetch all products...';
+
+        const response = await fetch('http://localhost:3000/api/v1/products', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const products = await response.json();
+            console.log(products);
+            productsDiv.innerHTML = '';
+
+            products.forEach(product => {
+                productsDiv.innerHTML += `
+                    <div>
+                        <h3>${product.name}</h3>
+                        <p>${product.desc}</p>
+                        <p>${product.price}</p>
+                        <img src="${product.image}" alt="${product.name}" />
+                    </div>
+                `;
+            });
+        } else {
+            productsDiv.innerHTML = 'Failed to fetch products!';
+        }
+
+
+    }
+</script>
+
+<body>
+    Week 3
+
+    <div>
+        <button id="btn" onclick="printHello()">Click me</button>
+    </div>
+
+    <div id="outputDiv">Number of clicks!</div>
+
+    <br />
+
+    <div>
+        <button id="fetchAllProductsBtn" onclick="fetchAllProducts()">Fetch all products</button>
+    </div>
+
+    <div id="productsDiv">
+        <!-- Products will be displayed here -->
+        <p>Currently no products displayed.</p>
+    </div>
+</body>
