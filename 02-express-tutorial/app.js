@@ -15,6 +15,11 @@ app.get('/api/v1/products', (req, res) => {
     res.json(products);
 });
 
+// Question 9
+app.get('/api/v1/products/:productID', (req, res) => {
+    res.json(req.params);
+});
+
 // Question 6
 app.all('*', (req, res) => {
     res.status(404).send('<h1>404! The page you requested is not found!</h1>');
