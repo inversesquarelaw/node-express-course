@@ -24,6 +24,10 @@ app.get('/api/v1/products/:productID', (req, res) => {
     // remember that 'products' is an array of objects, so each element in the array is an object
     const product = products.find( (element) => element.id === idToFind );
 
+    if( product === undefined ) {
+        return res.status(404).json({ message: "That product was not found." });
+    }
+
     // return the product object that matches the id
     res.json(product);
 });
