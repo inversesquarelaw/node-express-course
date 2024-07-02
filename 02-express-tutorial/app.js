@@ -1,11 +1,19 @@
 const express = require('express');
 const path = require('path');
+const { products } = require('./data');
+
 const app = express();
 
 // alternatively, we can write the above 2 lines as: 
 // const app = require('express')();
 // this is because the express module exports a function that we can invoke/call directly
 
+app.get('/', (req, res) => {
+    res.json(products);
+});
+
+
+/*
 // setup static and middleware
 // the express.static() method is a built-in middleware function in Express. It serves static files and is based on serve-static.
 // static files are files that clients download as they are from the server: like images, css, js files, etc.
@@ -20,6 +28,7 @@ app.get('/', (req, res) => {
 app.all('*', (req, res) => {
     res.status(404).send('<h1>Resource not found</h1>');
 });
+*/
 
 
 
