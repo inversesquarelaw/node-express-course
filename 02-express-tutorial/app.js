@@ -4,6 +4,11 @@ const app = express();
 // Question 4
 app.use(express.static('./public'));
 
+// Question 7
+app.get('/api/v1/test', (req, res) => {
+    res.json({ message: "It worked!" });
+});
+
 // Question 6
 app.all('*', (req, res) => {
     res.status(404).send('<h1>404! The page you requested is not found!</h1>');
