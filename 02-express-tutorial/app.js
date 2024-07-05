@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const { products } = require('./data');
+const { people } = require('./data');
 
 const logger = (req, res, next) => {
     const method = req.method;
@@ -12,7 +13,24 @@ const logger = (req, res, next) => {
 app.use(logger);
 
 // Question 4
-app.use(express.static('./public'));
+app.use(express.static('./methods-public'));
+
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+app.get('/api/v1/people', (req, res) => {
+    return res.status(200).json({ success: true, data: people });
+});
+
+app.post('/api/v1/people', (req, res) => {
+    const { name } = req.body;
+    if (!name) {
+        return res.status(400).json({ success: false, msg: 'Please provide a name' });
+    }
+
+    people.push( { id: people.length + 1, name: name })
+    return res.status(201).json({ success: true, data: name });
+});
 
 // Question 7
 app.get('/api/v1/test', (req, res) => {
