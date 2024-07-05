@@ -2,6 +2,15 @@ const express = require('express');
 const app = express();
 const { products } = require('./data');
 
+const logger = (req, res, next) => {
+    const method = req.method;
+    const url = req.url;
+    console.log(method, url, new Date(Date.now()).toISOString());
+    next();
+}
+
+app.use(logger);
+
 // Question 4
 app.use(express.static('./public'));
 
