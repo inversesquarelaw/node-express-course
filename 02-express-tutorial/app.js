@@ -5,7 +5,7 @@ const app = express();
 //const { products } = require('./data');
 //const { people } = require('./data');
 const peopleRouter = require('./routes/people');
-//const auth = require('./routes/auth');
+const auth = require('./routes/auth');
 
 const logger = require('./logger');
 
@@ -26,23 +26,6 @@ app.use(express.static('./methods-public'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
-
-const auth = (res, req, next) => {
-    let cookieName = req.cookies.name;
-
-    if( !cookieName ){
-        return res.status(401).json( { msg: "unauthorized" } );
-    }
-
-    req.user = { name: cookieName };
-    next();
-}
-
-app.post('/logon', (res, req, next) => {
-});
-
-app.delete('/logoff', (res, req, next) => {
-});
 
 // NOTE: it is very very IMPORTANT to put the .use() for '/api/v1/people after the parsing the body (.use() for express.json() and express.urlencoded())
 // if you put the below line before the parsing of the body, the req.body will be undefined and cause errors
