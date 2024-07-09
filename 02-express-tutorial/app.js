@@ -1,14 +1,21 @@
 const express = require('express');
 const app = express();
-const { products } = require('./data');
-const { people } = require('./data');
 
+//const { products } = require('./data');
+//const { people } = require('./data');
+const peopleRouter = require('./routes/people');
+const auth = require('./routes/auth');
+
+const logger = require('./logger');
+
+/*
 const logger = (req, res, next) => {
     const method = req.method;
     const url = req.url;
     console.log(method, url, new Date(Date.now()).toISOString());
     next();
 }
+*/
 
 app.use(logger);
 
@@ -18,6 +25,11 @@ app.use(express.static('./methods-public'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+// NOTE: it is very very IMPORTANT to put the .use() for '/api/v1/people after the parsing the body (.use() for express.json() and express.urlencoded())
+// if you put the below line before the parsing of the body, the req.body will be undefined and cause errors
+app.use('/api/v1/people', peopleRouter);
+
+/*
 app.get('/api/v1/people', (req, res) => {
     return res.status(200).json({ success: true, data: people });
 });
@@ -25,12 +37,13 @@ app.get('/api/v1/people', (req, res) => {
 app.post('/api/v1/people', (req, res) => {
     const { name } = req.body;
     if (!name) {
-        return res.status(400).json({ success: false, msg: 'Please provide a name' });
+        return res.status(400).json({ success: false, msg: 'Please provide a name value' });
     }
 
     people.push( { id: people.length + 1, name: name })
     return res.status(201).json({ success: true, data: name });
 });
+*/
 
 // Question 7
 app.get('/api/v1/test', (req, res) => {

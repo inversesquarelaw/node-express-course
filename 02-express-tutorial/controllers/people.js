@@ -1,10 +1,24 @@
 let { people } = require('../data');
 
 const getPeople = (req, res) => {
-    res.status(200).json( { sucess: true, data: people});
+    res.status(200).json( { success: true, data: people});
 }
 
-const createPerson = (req, res) => {
+const getPerson = (req, res) => {
+    const { id } = req.params;
+
+    const person = people.find( (person) => person.id === Number(id) );
+
+    if( !person ){
+        return res
+            .status(404)
+            .json( { success: false, msg: `Person with id ${id} not found` });
+    }
+
+    return res.status(200).json( { success: true, data: person });
+}
+
+const addPerson = (req, res) => {
     const { name } = req.body;
     if( !name ){
         return res
@@ -12,7 +26,10 @@ const createPerson = (req, res) => {
             .json( {success: false, msg: 'Please provide a name value'});
     }
 
-    res.status(201).json( {success: true, person: name} );
+    //res.status(201).json( {success: true, person: name} );
+
+    people.push( { id: people.length + 1, name: name })
+    return res.status(201).json({ success: true, data: name });
 }
 
 const createPersonPostman = (req, res) => {
@@ -25,6 +42,7 @@ const createPersonPostman = (req, res) => {
 
     // append the person that we add to the people array
     res.status(201).json( {success: true, data: [...people, name] });
+
 }
 
 const updatePerson = (req, res) => {
@@ -61,12 +79,16 @@ const deletePerson = (req, res) => {
     const newPeople = people.filter( 
         (person) => person.id !== Number(req.params.id) 
     );
-    return res.status(200).json( { success: true, data: newPeople } );
+
+    // update the people array with the newPeople array with the person removed
+    people = newPeople;
+    return res.status(200).json( { success: true, data: people } );
 }
 
 module.exports = {
     getPeople,
-    createPerson,
+    getPerson,
+    addPerson,
     createPersonPostman,
     updatePerson,
     deletePerson
