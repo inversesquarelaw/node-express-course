@@ -1,6 +1,24 @@
 const express = require('express');
 const router = express.Router();
 
+const auth = (res, req, next) => {
+    let cookieName = req.cookies.name;
+
+    if( !cookieName ){
+        return res.status(401).json( { msg: "unauthorized" } );
+    }
+
+    req.user = { name: cookieName };
+    next();
+}
+
+router.post('/logon', (res, req, next) => {
+});
+
+router.delete('/logoff', (res, req, next) => {
+});
+
+
 router.post('/', (req, res) => {
     //console.log(req.body);
 
