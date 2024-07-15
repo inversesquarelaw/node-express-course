@@ -10,7 +10,7 @@ const getTask = asyncWrapper(async (req, res, next) => {
   const { id: taskID } = req.params;  
   const task = await Task.findOne({ _id: taskID });  
   if (!task) {  
-    // your code here  
+    return next( createCustomError(`Task with id ${taskID} does not exist`, 404));
   }  
   res.status(200).json({ task });  
 });  

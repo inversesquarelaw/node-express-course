@@ -54,7 +54,10 @@ const createTask = async (req, res) => {
 */
 
 const getTask = asyncWrapper(async (req, res, next) => {
+    // we get the id from the URL, and taskID is the key we are using to store the id
     const { id: taskID } = req.params;
+
+    // task is the object that we get back from the .findOne() method
     const task = await Task.findOne( {_id: taskID} );
 
     if( !task ){
@@ -62,7 +65,7 @@ const getTask = asyncWrapper(async (req, res, next) => {
         //return res.status(404).json( {msg: `No task with id: ${taskID}` } );
     }
     
-    //else
+    //else return the task object
     res.status(200).json( {task: task} );
 });
 /*
