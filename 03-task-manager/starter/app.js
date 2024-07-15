@@ -35,13 +35,20 @@ app.patch('/api/v1/tasks/:id');     // update task
 app.delete('/api/v1/tasks/:id');    // delete task
 */
 
+// added a port variable to use the environment variable PORT or 3000
+const port = process.env.PORT || 3000;
+
+// putting the connectDB function in a start function ensures that the server will only start if the database is connected
 const start = async () => {
     try {
+        // we make sure that the database is connected before we start the server
         await connectDB(process.env.MONGO_URI);
-        app.listen(3000, console.log('Server is listening on port 3000...') );
+        // we start the server
+        app.listen(port, console.log('Server is listening on port 3000...') );
     } catch (err) {
         console.log(err);
     }
 }
 
+// we invoke the start function which contains the connectDB function and the app.listen function
 start();
