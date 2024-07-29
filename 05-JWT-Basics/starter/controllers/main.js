@@ -38,29 +38,38 @@ const login = async (req, res) => {
 // here is the controller/logic for the route
 const dashboard = async (req, res) => {
     //console.log(req.headers);
-    const authHeader = req.headers.authorization;
+    // const authHeader = req.headers.authorization;
+    // console.log(authHeader);
 
-    if( !authHeader || !authHeader.startsWith('Bearer ') ) {
-        throw new CustomAPIError('No token provided', 401);
-    }
+    // if( !authHeader || !authHeader.startsWith('Bearer ') ) {
+    //     throw new CustomAPIError('No token provided', 401);
+    // }
 
-    const token = authHeader.split(' ')[1];
+    // const token = authHeader.split(' ')[1];
     //console.log(token);
-    try {
-        // decode the JWT
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // try {
+    //     // decode the JWT
+    //     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        const luckyNumber = Math.floor(Math.random() * 100);
-        res.status(200)
-            .json({ 
-                msg: `Hello ${decoded.username}`, 
-                secret: `Here is your authorized data, your lucky number is ${luckyNumber}`
-            });
+    //     const luckyNumber = Math.floor(Math.random() * 100);
+    //     res.status(200)
+    //         .json({ 
+    //             msg: `Hello ${decoded.username}`, 
+    //             secret: `Here is your authorized data, your lucky number is ${luckyNumber}`
+    //         });
 
-    } catch (error) {
-        // if the verify throws an error/exception, it means the token is invalid
-        throw new CustomAPIError('Not authorized to access this route', 401);
-    }
+    // } catch (error) {
+    //     // if the verify throws an error/exception, it means the token is invalid
+    //     throw new CustomAPIError('Not authorized to access this route', 401);
+    // }
+
+    //console.log(req.user);
+    const luckyNumber = Math.floor(Math.random() * 100);
+    res.status(200)
+        .json({ 
+            msg: `Hello ${req.user.username}`, 
+            secret: `Here is your authorized data, your lucky number is ${luckyNumber}`
+        });
 
 };
 
