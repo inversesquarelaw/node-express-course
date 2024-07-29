@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const CustomAPIError = require('../errors/custom-error');
 
-const authicationMiddleware = async (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
     const authHeader = req.headers.authorization;
     //console.log('auth header:', authHeader);
     if( !authHeader || !authHeader.startsWith('Bearer ') ) {
@@ -33,4 +33,4 @@ const authicationMiddleware = async (req, res, next) => {
     }
 }
 
-module.exports = authicationMiddleware;
+module.exports = authMiddleware;
