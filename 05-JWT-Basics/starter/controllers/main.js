@@ -6,7 +6,7 @@
 5. add functionality to authentication so that only requests with valid JWT token can access the protected routes
 */
 const jwt = require('jsonwebtoken');
-const CustomAPIError = require('../errors/custom-error');
+const {BadRequestError} = require('../errors/index');
 
 const login = async (req, res) => {
     const { username, password } = req.body;
@@ -18,7 +18,7 @@ const login = async (req, res) => {
     
     if( !username || !password ) {
         // if username as password are not provided, throw an error
-        throw new CustomAPIError('Please provide email or password', 400);
+        throw new BadRequestError('Please provide email or password');
     }
 
     // typically, you would check the username and password in the database,
